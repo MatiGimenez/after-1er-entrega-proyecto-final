@@ -1,8 +1,18 @@
+import "./src/db/firebase.js";
 import app from "./src/app.js";
 import { config } from "./src/constants/index.js";
+import { connectMongo } from "./src/db/mongo.js";
 
-const PORT = config.port || 8080;
+const startServer = async () => {
+  try {
+    await Promise.all([connectMongo(), app.listen(config.port)]);
 
-app.listen(PORT, () => {
-	console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+    console.log(
+      `Server has started on port: ${config.port}, connected to mongo at ${config.mongoUri}`
+    );
+  } catch (error) {
+    console.error(`Could not start the app: `, error);
+  }
+};
+
+startServer();

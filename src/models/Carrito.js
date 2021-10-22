@@ -1,9 +1,9 @@
-import { v4 } from "uuid";
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-export class Carrito {
-	constructor() {
-		this.id = v4();
-		this.timestamp = Date.now();
-		this.productos = [];
-	}
-}
+const carritoSchema = new Schema({
+  timestamp: { type: Date, default: Date.now },
+  products: { type: Schema.Types.ObjectId, ref: "Productos" },
+});
+
+export const Carrito = mongoose.model("Carritos", carritoSchema);
